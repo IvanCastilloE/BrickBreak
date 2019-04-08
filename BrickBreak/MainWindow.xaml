@@ -1,0 +1,30 @@
+﻿<Window x:Class="BrickBreak.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BrickBreak"
+        mc:Ignorable="d"
+        Title="MainWindow" WindowState="Maximized" WindowStyle="None"> 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" />
+            
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="1" MinWidth="160" Background="Coral">
+            <Button Padding="5" Margin="10" BorderBrush="Azure" BorderThickness="1" Content="Quit Guemu" DockPanel.Dock="Top" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" />
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
+                <Label x:Name="xLabel" Content="Life: " FontSize="20" Margin="5" />
+                <Label x:Name="LifeLabel" FontSize="20" Content="0" Margin="5"/>
+                <Label VerticalAlignment="Bottom" x:Name="Size" Margin="0,11,0,0" Content="Tamaño no soportado"/>
+            </StackPanel>
+        </DockPanel>
+        <Canvas Cursor="None" Background="Black" x:Name="CanvasGame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0">
+            <Ellipse x:Name="Ballota" Height="30" Width="30" Fill="AliceBlue" Canvas.Top="300" Canvas.Left="80"/>
+            <Rectangle x:Name="Board" Width="150" Height="20" Fill="Firebrick" Canvas.Bottom="50" Canvas.Left="200"/>
+            <Label x:Name="GameOver" Foreground="Red" Content="Game Over" FontSize="40" FontWeight="Bold" Visibility="Hidden"/>
+        </Canvas>
+    </Grid>
+</Window>
