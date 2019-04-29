@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrickBreak"
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized" WindowStyle="None"> 
+        Title="MainWindow" Loaded="MainWindow_OnLoaded" WindowState="Maximized" WindowStyle="None"
+        PreviewKeyDown="Window_PreviewKeyDown" PreviewKeyUp="Windows_PreviewKeyUp"> 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
