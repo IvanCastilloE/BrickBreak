@@ -153,6 +153,17 @@ namespace BrickBreak
             if (_balLocX + 30 >= _gameWidth)
                 _xMove *= -1;
         }
+
+        private void CheckTopBorder()
+        {
+            if (_balLocY <= 0)
+                _yMove *= -1;
+        }
+        private void CheckBottomBorder()
+        {
+            if (_balLocY +30 >= _gameHeight)
+                _yMove *= -1;
+        }
         //Revisar si la esfera toca la barra
         private void CheckBoard()
         {
@@ -202,6 +213,8 @@ namespace BrickBreak
                     CheckLeftBorder();
                     CheckRightBorder();
                     CheckBoard();
+                    CheckTopBorder();
+                    CheckBottomBorder();
 
                     //Movimiento esfera
                     _balLocX += _xMove;
