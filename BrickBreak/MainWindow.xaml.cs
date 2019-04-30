@@ -68,8 +68,15 @@ namespace BrickBreak
             _gameHeight = (int)CanvasGame.ActualHeight;
             //this.
             _boardSpeedScreen = _gameHeight / 80;
+            //Definir localisacion de la esfera
+            _balLocX = _gameWidth / 2;
+            _balLocY = _gameHeight / 3;
+            SetBallLocation(_balLocX, _balLocY);
             //Llamando a la funcion que dibuja los bloques
             DrawBlocks();
+            _ballMoveThread = new Thread(BallMovement);
+            _ballMoveThread.Start();
+
             _boardLoc = _gameWidth / 2 - 75;
             Canvas.SetLeft(Board, _boardLoc);
 
@@ -93,7 +100,7 @@ namespace BrickBreak
             }
             for (var i=2; i * 40+10 < _gameWidth - 3 * 40 + 10; i++)
             {
-                var rec = new Rectangle { Width = 30, Height = 30, Fill = Brushes.Gold };
+                var rec = new Rectangle { Width = 30, Height = 30, Fill = Brushes.Indigo };
                 CanvasGame.Children.Add(rec);
                 Canvas.SetTop(rec, 180);
                 Canvas.SetLeft(rec, i * 40 + 10);
@@ -130,5 +137,81 @@ namespace BrickBreak
             _boardSpeed = 1;
         }
         #endregion
+        #region Ball Move
+        //Check Edges
+
+            //Lado izquierdo
+        private void CheckLeftBorder()
+        {
+            //Revertir la direccion de la esfera cuando toque este lado
+            if (_balLocX <= 0)
+                _xMove *= -1;
+        }
+
+        private void CheckRightBorder()
+        {
+            if (_balLocX + 30 >= _gameWidth)
+                _xMove *= -1;
+        }
+        //Revisar si la esfera toca la barra
+        private void CheckBoard()
+        {
+            //La esfera toca la barra
+            if(_balLocX + 30 - 5 >= _boardLoc && _balLocX + 5 <= _boardLoc + 150)
+            {
+                //Si la esfera toca el centro de la barra
+                if(_balLocX >= _boardLoc && _balLocY <= _boardLoc + 120)
+                {
+                    if(_balLocY + 60 >= _gameHeight && _yMove > 0)
+                    {
+                        _yMove = -2;
+                        _ballSpeed = 6;
+                    }
+                }
+
+                //La esfera toca un extremo de la barra
+                else
+                {
+                    if(_balLocY + 60 >= _gameHeight && _yMove > 0)
+                    {
+                        _yMove = -2.5;
+                        _ballSpeed = 8;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        private void SetBallLocation(double x, double y)
+        {
+            void Act()
+            {
+                Canvas.SetLeft(Ballota, x);
+                Canvas.SetTop(Ballota, y);
+            }
+            Dispatcher.BeginInvoke((Action)Act);
+        }
+        //Esfera Loop
+        private void BallMovement()
+        {
+            while (true)
+            {
+                if (!_pause)
+                {
+                    //Check sides
+                    CheckLeftBorder();
+                    CheckRightBorder();
+                    CheckBoard();
+
+                    //Movimiento esfera
+                    _balLocX += _xMove;
+                    _balLocY += _yMove;
+
+                    //Dibuujar la esfera
+                    SetBallLocation(_balLocX, _balLocY);
+                }
+                Thread.Sleep(_ballSpeed);
+            }
+        }
     }
 }
