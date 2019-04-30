@@ -162,7 +162,7 @@ namespace BrickBreak
                 //Si la esfera toca el centro de la barra
                 if(_balLocX >= _boardLoc && _balLocY <= _boardLoc + 120)
                 {
-                    if(_balLocY + 60 >= _gameHeight && _yMove > 0)
+                    if(_balLocY + 95 >= _gameHeight && _yMove > 0)
                     {
                         _yMove = -2;
                         _ballSpeed = 6;
@@ -172,7 +172,7 @@ namespace BrickBreak
                 //La esfera toca un extremo de la barra
                 else
                 {
-                    if(_balLocY + 60 >= _gameHeight && _yMove > 0)
+                    if(_balLocY + 95 >= _gameHeight && _yMove > 0)
                     {
                         _yMove = -2.5;
                         _ballSpeed = 8;
