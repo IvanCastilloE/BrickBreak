@@ -191,6 +191,39 @@ namespace BrickBreak
                 }
             }
         }
+        //revisar si la bola golpea un bloque
+        private void CheckBlocks()
+        {
+            //Revisar todos los bloques
+            Action act = () =>
+            {
+                foreach (var item in CanvasGame.Children)
+                    if(item is Rectangle)
+                    {
+                        var rec = item as Rectangle;
+                        //Si golpea el bloque
+                        if (rec.Visibility == Visibility.Visible && Canvas.GetLeft(rec) <= _balLocX + 30 && 
+                        Canvas.GetLeft(rec) +30 >= _balLocX && _balLocY <= Canvas.GetTop(rec) + 30 && 
+                        _balLocY + 30 >= Canvas.GetTop(rec) && rec.Name != "Board")
+                        {
+                            //Desaparecer bloque al tocarlo
+                            rec.Visibility = Visibility.Hidden;
+                            //Validar si lo golpea desde arriba o abajo
+                            if (Math.Abs(Canvas.GetTop(rec) - (_balLocY - 30)) <= Math.Abs(_yMove) ||
+                            Math.Abs(Canvas.GetTop(rec) - (_balLocY + 30)) <= Math.Abs(_yMove))
+                                _yMove *= -1;
+                            //Validar si golpea por la
+                            else if (Math.Abs(Canvas.GetLeft(rec) - (_balLocX - 30)) <= Math.Abs(_xMove) ||
+                            Math.Abs(Canvas.GetLeft(rec) - (_balLocX + 30)) <= Math.Abs(_xMove))
+                                _yMove *= -1;
+                            break;
+                        }
+
+                    }
+            };
+            Dispatcher.Invoke(act);
+        }
+
         #endregion
 
         private void SetBallLocation(double x, double y)
@@ -215,6 +248,7 @@ namespace BrickBreak
                     CheckBoard();
                     CheckTopBorder();
                     CheckBottomBorder();
+                    CheckBlocks();
 
                     //Movimiento esfera
                     _balLocX += _xMove;
